@@ -26,9 +26,25 @@ require(['openlayers'],
     function(OpenLayers) {
     	var map;
     	map = new OpenLayers.Map('map');
-    	var wms = new OpenLayers.Layer.WMS("OpenLayers WMS", "http://labs.metacarta.com/wms/vmap0",{layers: 'basic'});
-    	map.addLayers([wms]);
-    	map.zoomToMaxExtent();
+    	//var wms = new OpenLayers.Layer.WMS("OpenLayers WMS", "http://labs.metacarta.com/wms/vmap0",{layers: 'basic'});
+    	var wms_layer_map = new OpenLayers.Layer.WMS(
+			'Base layer',
+			'http://vmap0.tiles.osgeo.org/wms/vmap0',
+			{layers: 'basic'},
+			{isBaseLayer: true}
+		);
+		var wms_layer_labels = new OpenLayers.Layer.WMS(
+			'Location Labels',
+			'http://vmap0.tiles.osgeo.org/wms/vmap0',
+			{layers: 'clabel,ctylabel,statelabel',
+			transparent: true},
+			{opacity: .5}
+		);
+    	map.addLayers([wms_layer_map, wms_layer_labels]);
+    	map.addControl(new OpenLayers.Control.LayerSwitcher({}));
+    	if(!map.getCenter()){
+    		map.zoomToMaxExtent();
+		}
     }
 );
 
