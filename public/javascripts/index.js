@@ -4,7 +4,7 @@ require.config({
         jquery : 'libs/jquery/jquery-1.9.1.min',
         jquery_ui : 'libs/jquery/jquery-ui',
         underscore : 'libs/underscore/underscore',
-        openlayers: 'libs/openlayer/OpenLayers',
+        openlayers: 'libs/openlayers/OpenLayers',
         app: 'app',
         appLayers: 'app-layers'
     },
