@@ -3,23 +3,23 @@
 	<link rel='stylesheet' href="/stylesheets/style.css"/>
 	<link rel="stylesheet" href="/stylesheets/jquery-ui.css" />
 	<script data-main="/javascripts/index" src="/javascripts/libs/require/require.js"></script>
-	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 	<title>Learn OpenLayers</title>
 </head>
 
 <body>
 	<h2>Learn <a href="http://openlayers.org/">OpenLayers</a></h2>
 	<hr/><br>
-	<div id='maps-tabs'>
-	<ul>
-		<li><a href='#tabs-wms'>WMS</a></li>
-		<li><a href='#tabs-google'>Google</a></li>
-	</ul>
-	<div id='tabs-wms' class='map'>
-		<div id="map-wms"></div>
+		<div id='maps-tabs'>
+		<ul>
+			<li><a href='#tabs-wms'>WMS</a></li>
+			<li><a href='#tabs-google'>Google</a></li>
+		</ul>
+		<div id='tabs-wms' class='map'>
+			<div id="map-wms"></div>
+		</div>
+		<div id='tabs-google' class='map'>
+			<div id="map-google"></div>
+		</div>
 	</div>
-	<div id='tabs-google' class='map'>
-		<div id="map-google"></div>
-	</div>
-</div>
+	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 </body>

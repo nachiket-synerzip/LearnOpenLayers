@@ -7,22 +7,29 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'],
 					$('#maps-tabs').tabs();
 				});
 				this.createMap('WMS');
+				var self = this;
+				$(document).ready(function(){
+					self.createMap('Google');	
+				});
+				
 			},
 			createMap: function(type) {
 				var map;
 				switch(type) {
 					case 'Google':
 						map = new OpenLayers.Map('map-google');
-						map.addLayer(Applayers.google_map_layer);
+						var googleLayers = AppLayers.getGoogleLayers();
+						map.addLayer(googleLayers.google_map_layer);
 					break;
 					case 'WMS':
 						map = new OpenLayers.Map('map-wms');
+						var wmsLayers = AppLayers.getWMSLayers();
 						map.addLayers([
-							AppLayers.wms_layer_map,
-							AppLayers.wms_layer_labels,
-							AppLayers.wms_state_lines,
-							AppLayers.wms_water_depth,
-							AppLayers.wms_roads
+							wmsLayers.wms_layer_map,
+							wmsLayers.wms_layer_labels,
+							wmsLayers.wms_state_lines,
+							wmsLayers.wms_water_depth,
+							wmsLayers.wms_roads
 						]);
 					break;
 				}
