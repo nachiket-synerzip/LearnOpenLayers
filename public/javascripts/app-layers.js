@@ -54,6 +54,10 @@ define(["openlayers"], function(OpenLayers){
 			{
 				transistionEffect:'resize'
 			}
+		),
+		google_map_layer : new OpenLayers.Layer.Google(
+			'Google Map Layer',
+			{}
 		)
 	}
 });
