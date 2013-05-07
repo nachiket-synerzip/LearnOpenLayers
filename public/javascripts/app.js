@@ -9,7 +9,16 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'],
 				this.createMap('WMS');
 				var self = this;
 				$(document).ready(function(){
-					self.createMap('Google');	
+					try {
+						self.createMap('Custom');
+					} catch(e){
+						console.log("Error while creating Custom Map");
+					}
+					try {
+						self.createMap('Google');
+					} catch(e){
+						console.log("Error while creating Google Map");
+					}
 				});
 				
 			},
@@ -30,6 +39,14 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'],
 							wmsLayers.wms_state_lines,
 							wmsLayers.wms_water_depth,
 							wmsLayers.wms_roads
+						]);
+					break;
+					case 'Custom':
+						map = new OpenLayers.Map('map-image');
+						var imgLayers = AppLayers.getImageLayers();
+						console.log("adding custom layer");
+						map.addLayers([
+							imgLayers.image_layer_1
 						]);
 					break;
 				}
