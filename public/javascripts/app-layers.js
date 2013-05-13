@@ -56,29 +56,14 @@ define(["openlayers"], function(OpenLayers){
 					{
 						transistionEffect:'resize'
 					}
-				)	
-			}
-		},
-		getGoogleLayers: function() {
-			return	{
-				google_map_layer : new OpenLayers.Layer.Google(
-					'Google Map Layer',
-					{}
-				)
-			}
-		},
-		getImageLayers: function() {
-			return {
-				image_layer_1 : new OpenLayers.Layer.Image(
-					'Wallpaper',
-					'http://2.bp.blogspot.com/-spfHNq1iEu8/T6-2wXITq9I/AAAAAAAAKLM/EgQHWf7rPtI/s1600/World_Map_of_Ice_and_Fire.jpg',
-					new OpenLayers.Bounds(-400,-250,400,250),
-					new OpenLayers.Size(1600,1596),
-					{
-						numZoomLevels:7, 
-						maxResolution:.625
-					}
-				)
+				),
+				blueMarble : new OpenLayers.Layer.WMS(
+                	"Global Imagery",
+                	"http://maps.opengeo.org/geowebcache/service/wms",
+                	{
+                		layers: "bluemarble"
+                	}
+            	)	
 			}
 		}
 	}
