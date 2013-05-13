@@ -58,10 +58,18 @@ define(["openlayers"], function(OpenLayers){
 					}
 				),
 				blueMarble : new OpenLayers.Layer.WMS(
-                	"Global Imagery",
+                	"Global Imagery - Blue Marble",
                 	"http://maps.opengeo.org/geowebcache/service/wms",
                 	{
                 		layers: "bluemarble"
+                	}
+            	),
+            	openStreetMap : new OpenLayers.Layer.WMS(
+                	"Global Imagery - Open Street Map",
+                	"http://maps.opengeo.org/geowebcache/service/wms",
+                	{
+                		layers: "openstreetmap",
+                		format: "image/png"
                 	}
             	)	
 			}

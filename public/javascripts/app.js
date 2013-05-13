@@ -15,7 +15,8 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'],
 						map = new OpenLayers.Map('map-wms');
 						var wmsLayers = AppLayers.getWMSLayers();
 						map.addLayers([
-							wmsLayers.blueMarble
+							wmsLayers.blueMarble,
+							wmsLayers.openStreetMap
 						]);
 					break;
 				}
