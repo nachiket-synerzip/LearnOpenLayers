@@ -73,6 +73,17 @@ define(["openlayers"], function(OpenLayers){
                 	}
             	)	
 			}
+		},
+		getEarthquakeLayer: function() {
+			return {
+				earthquake_1: new OpenLayers.Layer.Vector("Earthquakes", {
+    				strategies: [new OpenLayers.Strategy.Fixed()],
+    				protocol: new OpenLayers.Protocol.HTTP({
+        				url: "/data/7day-M2.5.xml",
+        				format: new OpenLayers.Format.GeoRSS()
+    				})
+				})
+			}
 		}
 	}
 });

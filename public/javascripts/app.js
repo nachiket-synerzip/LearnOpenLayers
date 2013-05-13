@@ -5,18 +5,14 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'], function(OpenLayers,
 			$(function() {
 				$('#maps-tabs').tabs();
 			});
-			this.createMap('WMS');
+			this.createWMSMap('WMS');
 			this.createMapWithOptions();
+			this.createEarthquakeLayer();
 		},
-		createMap : function(type) {
-			var map;
-			switch(type) {
-				case 'WMS':
-					map = new OpenLayers.Map('map-wms');
-					var wmsLayers = AppLayers.getWMSLayers();
-					map.addLayers([wmsLayers.blueMarble, wmsLayers.openStreetMap]);
-					break;
-			}
+		createWMSMap : function(type) {
+			var map = new OpenLayers.Map('map-wms');
+			var wmsLayers = AppLayers.getWMSLayers();
+			map.addLayers([wmsLayers.blueMarble, wmsLayers.openStreetMap]);
 			map.addControl(new OpenLayers.Control.LayerSwitcher({}));
 			if (!map.getCenter()) {
 				map.zoomToMaxExtent();
@@ -46,7 +42,17 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'], function(OpenLayers,
 			map.addControl(new OpenLayers.Control.LayerSwitcher());
 
 			map.setCenter(center, 9);
-		}
+		},
+		createEarthquakeLayer: function() {
+			var eqLayer = AppLayers.getEarthquakeLayer();
+			var map = new OpenLayers.Map('map-earthquake');
+			var wmsLayers = AppLayers.getWMSLayers();
+			map.addLayers([wmsLayers.blueMarble, eqLayer.earthquake_1]);
+			map.addControl(new OpenLayers.Control.LayerSwitcher({}));
+			if (!map.getCenter()) {
+				map.zoomToMaxExtent();
+			}
+		},
 	}
 	return obj;
 }); 
