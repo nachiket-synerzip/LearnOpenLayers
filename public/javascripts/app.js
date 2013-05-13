@@ -38,6 +38,12 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'], function(OpenLayers,
 
 			var osm = new OpenLayers.Layer.OSM();
 			map.addLayer(osm);
+			var bing = new OpenLayers.Layer.Bing({
+                key: "AlucD6JGAHASammfZJ_BZLSkQ7By8czRedItcP4Lz3fbiWWQKylitB6XsnGeJqRC",
+                type: "Road",
+            });
+            map.addLayer(bing);
+			map.addControl(new OpenLayers.Control.LayerSwitcher());
 
 			map.setCenter(center, 9);
 		}
