@@ -1,6 +1,8 @@
 define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'], function(OpenLayers, AppLayers, $, ui) {
 
 	var obj = {
+		eqMap: null,
+		eqPopup: null,
 		start : function() {
 			$(function() {
 				$('#maps-tabs').tabs();
@@ -46,6 +48,7 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'], function(OpenLayers,
 		createEarthquakeLayer: function() {
 			var eqVector = AppLayers.getEarthquakeLayer().earthquake_1;
 			var map = new OpenLayers.Map('map-earthquake');
+			this.eqMap = map;
 			var wmsLayers = AppLayers.getWMSLayers();
 			map.addLayers([wmsLayers.blueMarble, eqVector]);
 			map.addControl(new OpenLayers.Control.LayerSwitcher({}));
@@ -65,16 +68,38 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'], function(OpenLayers,
 			eqVector.events.on({
                 "featureselected": function(e) {
                 	var attr = e.feature.attributes;
-                    self.showInfo(attr.title, attr.description, attr.link);
+                	console.log(e.feature.geometry);
+                    //self.showInfo(attr.title, attr.description, attr.link);
+                    self.showEqPopup(e.feature);
                 },
                 "featureunselected": function(e) {
                 	var attr = e.feature.attributes;
-                    self.showInfo(attr.title, attr.description, attr.link);
+                    //self.showInfo(attr.title, attr.description, attr.link);
+                    self.hideEqPopup();
                 }
             });
 		},
 		showInfo: function(t, d, l) {
 			$("#eq-info-div").html("<h4>" + t + "</h4><div>" + d + "</div><div><a href='" + l + "'>Link</a></div>");
+		},
+		showEqPopup: function (feature) {
+			console.log(OpenLayers.Popup);
+			var t = feature.attributes.title,
+				d = feature.attributes.description,
+				l = feature.attributes.description,
+				popup = new OpenLayers.Popup("chicken",
+				new OpenLayers.LonLat(feature.geometry.x, feature.geometry.y),
+				new OpenLayers.Size(200,200),
+				"<h4>" + t + "</h4><div>" + d + "</div><div><a href='" + l + "'>Link</a></div>",
+				true
+			);
+			//popup.contentHTML = feature.attributes.description;
+			this.eqMap.addPopup(popup);
+			this.eqPopup = popup;
+		},
+		hideEqPopup: function() {
+			this.eqMap.removePopup(this.eqPopup);
+			this.eqPopup = null;
 		}
 	}
 	return obj;
