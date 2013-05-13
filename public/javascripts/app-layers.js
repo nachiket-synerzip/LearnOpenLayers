@@ -74,7 +74,7 @@ define(["openlayers"], function(OpenLayers){
             	)	
 			}
 		},
-		getEarthquakeLayer: function() {
+		getEarthquakeLayer: function() { //this is actually a vector
 			return {
 				earthquake_1: new OpenLayers.Layer.Vector("Earthquakes", {
     				strategies: [new OpenLayers.Strategy.Fixed()],

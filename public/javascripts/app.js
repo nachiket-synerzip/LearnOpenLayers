@@ -44,15 +44,38 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'], function(OpenLayers,
 			map.setCenter(center, 9);
 		},
 		createEarthquakeLayer: function() {
-			var eqLayer = AppLayers.getEarthquakeLayer();
+			var eqVector = AppLayers.getEarthquakeLayer().earthquake_1;
 			var map = new OpenLayers.Map('map-earthquake');
 			var wmsLayers = AppLayers.getWMSLayers();
-			map.addLayers([wmsLayers.blueMarble, eqLayer.earthquake_1]);
+			map.addLayers([wmsLayers.blueMarble, eqVector]);
 			map.addControl(new OpenLayers.Control.LayerSwitcher({}));
+			var featureControl = new OpenLayers.Control.SelectFeature(
+				[eqVector], {
+					hover: false,
+					clickout: true
+				}
+			);
+			map.addControl(featureControl);
+			featureControl.activate();
+			console.log(featureControl);
 			if (!map.getCenter()) {
 				map.zoomToMaxExtent();
 			}
+			var self = this;
+			eqVector.events.on({
+                "featureselected": function(e) {
+                	var attr = e.feature.attributes;
+                    self.showInfo(attr.title, attr.description, attr.link);
+                },
+                "featureunselected": function(e) {
+                	var attr = e.feature.attributes;
+                    self.showInfo(attr.title, attr.description, attr.link);
+                }
+            });
 		},
+		showInfo: function(t, d, l) {
+			$("#eq-info-div").html("<h4>" + t + "</h4><div>" + d + "</div><div><a href='" + l + "'>Link</a></div>");
+		}
 	}
 	return obj;
 }); 
