@@ -10,6 +10,7 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'], function(OpenLayers,
 			this.createWMSMap('WMS');
 			this.createMapWithOptions();
 			this.createEarthquakeLayer();
+			this.createGeoJSONLayer();
 		},
 		createWMSMap : function(type) {
 			var map = new OpenLayers.Map('map-wms');
@@ -100,6 +101,39 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'], function(OpenLayers,
 		hideEqPopup: function() {
 			this.eqMap.removePopup(this.eqPopup);
 			this.eqPopup = null;
+		},
+		createGeoJSONLayer: function() {
+			var apiKey= "AlucD6JGAHASammfZJ_BZLSkQ7By8czRedItcP4Lz3fbiWWQKylitB6XsnGeJqRC";
+			var hybrid = new OpenLayers.Layer.Bing({
+    			key: apiKey,
+    			type: "AerialWithLabels",
+    			name: "Bing Aerial With Labels"
+			});
+
+			var vector = new OpenLayers.Layer.Vector("GeoJSON", {
+    				projection: "EPSG:2908",
+    				strategies: [new OpenLayers.Strategy.Fixed()],
+    				protocol: new OpenLayers.Protocol.HTTP({
+        				url: "data/ny_buildings_2908.json",
+        				format: new OpenLayers.Format.GeoJSON()
+    				})
+			});
+			
+			//FIXME : The Vector does not show up !
+
+			var center = new OpenLayers.LonLat(987837.625, 212499.46875).transform("EPSG:2908", "EPSG:900913");
+			//8.837963756293503, 1.8636707224013
+			//var center = new OpenLayers.LonLat(8.837963756293503, 1.8636707224013);
+			
+
+			var map = new OpenLayers.Map({
+    			div: "map-geojson",
+    			//layers: [hybrid, vector],
+    			layers: [hybrid],
+    			center: center,
+    			zoom: 4
+			});
+			console.log(vector);
 		}
 	}
 	return obj;
