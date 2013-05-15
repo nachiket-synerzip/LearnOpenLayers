@@ -84,7 +84,7 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'], function(OpenLayers,
 			$("#eq-info-div").html("<h4>" + t + "</h4><div>" + d + "</div><div><a href='" + l + "'>Link</a></div>");
 		},
 		showEqPopup: function (feature) {
-			console.log(OpenLayers.Popup);
+			//console.log(OpenLayers.Popup);
 			var t = feature.attributes.title,
 				d = feature.attributes.description,
 				l = feature.attributes.description,
@@ -94,6 +94,8 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'], function(OpenLayers,
 				"<h4>" + t + "</h4><div>" + d + "</div><div><a href='" + l + "'>Link</a></div>",
 				true
 			);
+			console.log("x = " + feature.geometry.x + ", y = " + feature.geometry.y);
+			console.log(popup);
 			//popup.contentHTML = feature.attributes.description;
 			this.eqMap.addPopup(popup);
 			this.eqPopup = popup;
@@ -103,37 +105,44 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'], function(OpenLayers,
 			this.eqPopup = null;
 		},
 		createGeoJSONLayer: function() {
+			console.log("#########################################");
 			var apiKey= "AlucD6JGAHASammfZJ_BZLSkQ7By8czRedItcP4Lz3fbiWWQKylitB6XsnGeJqRC";
 			var hybrid = new OpenLayers.Layer.Bing({
     			key: apiKey,
-    			type: "AerialWithLabels",
-    			name: "Bing Aerial With Labels"
+    			type: "Road",
+    			name: "Bing Road"
 			});
+			
+			var wms_layer = AppLayers.getWMSLayers().wms_layer_map,
+				label_layer = AppLayers.getWMSLayers().wms_layer_labels,
+				wms_roads = AppLayers.getWMSLayers().wms_layer_labels.wms_roads;
 
 			var vector = new OpenLayers.Layer.Vector("GeoJSON", {
-    				projection: "EPSG:2908",
     				strategies: [new OpenLayers.Strategy.Fixed()],
     				protocol: new OpenLayers.Protocol.HTTP({
-        				url: "data/ny_buildings_2908.json",
+        				url: "data/ny_buildings_900913.json",
         				format: new OpenLayers.Format.GeoJSON()
     				})
 			});
-			
-			//FIXME : The Vector does not show up !
 
-			var center = new OpenLayers.LonLat(987837.625, 212499.46875).transform("EPSG:2908", "EPSG:900913");
-			//8.837963756293503, 1.8636707224013
-			//var center = new OpenLayers.LonLat(8.837963756293503, 1.8636707224013);
-			
+			var minX = -8237808.1862,
+				minY = 4973511.6453,
+				maxX = -8234584.6317,
+				maxY = 4978067.7396;
+
+			var center = new OpenLayers.LonLat((minX + maxX) / 2, (minY + minY) / 2);
 
 			var map = new OpenLayers.Map({
     			div: "map-geojson",
-    			//layers: [hybrid, vector],
-    			layers: [hybrid],
+    			projection: "EPSG:900913",
+    			layers: [wms_layer, vector],
     			center: center,
-    			zoom: 4
+    			maxExtent: new OpenLayers.Bounds(minX, minY, maxX, maxY),
+    			zoom: 1
 			});
 			console.log(vector);
+			console.log(map);
+			console.log(vector.features);
 		}
 	}
 	return obj;
