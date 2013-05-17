@@ -135,7 +135,7 @@ define(['openlayers', 'app-layers', 'jquery', 'jquery_ui'], function(OpenLayers,
 			var map = new OpenLayers.Map({
     			div: "map-geojson",
     			projection: "EPSG:900913",
-    			layers: [wms_layer, vector],
+    			layers: [hybrid, vector],
     			center: center,
     			maxExtent: new OpenLayers.Bounds(minX, minY, maxX, maxY),
     			zoom: 1
